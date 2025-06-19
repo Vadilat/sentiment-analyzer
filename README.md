@@ -6,7 +6,7 @@ A Spring Boot app that streams live news, sends articles through Kafka, and perf
 
 ## Tech Stack
 
-- **Java 17**
+- **Java**
 - **Spring Boot**
 - **Spring WebFlux**
 - **Reactor Kafka**
@@ -43,15 +43,15 @@ src/
 
 ## API Endpoints
 
-| Method | Endpoint       | Description                                 |
-|--------|----------------|---------------------------------------------|
-| GET    | `/hello`       | Analyze custom text sentiment               |
-| POST   | `/sendKafka`   | Manually send a message to Kafka            |
-| GET    | `/getKafka`    | View incoming Kafka messages                |
-| GET    | `/startNews`   | Start streaming news by keyword             |
-| GET    | `/stopNews`    | Stop the news stream                        |
-| GET    | `/grouped`     | View grouped message count by time window   |
-| GET    | `/sentiment`   | View average sentiment over time window     |
+| Method | Endpoint       | Description                                                           |
+|--------|----------------|-----------------------------------------------------------------------|
+| GET    | `/hello`       | Analyze custom text sentiment                                         |
+| POST   | `/sendKafka`   | Send a text payload to Kafka. Requires a JSON body: { "text": "..." } |
+| GET    | `/getKafka`    | View incoming Kafka messages                                          |
+| GET    | `/startNews`   | Start streaming news by keyword                                       |
+| GET    | `/stopNews`    | Stop the news stream                                                  |
+| GET    | `/grouped`     | View grouped message count by time window                             |
+| GET    | `/sentiment`   | View average sentiment over time window                               |
 
 ---
 
