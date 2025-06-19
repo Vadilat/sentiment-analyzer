@@ -2,7 +2,7 @@ package com.handson.sentiment.controller;
 
 import com.handson.sentiment.kafka.AppKafkaSender;
 import com.handson.sentiment.nlp.SentimentAnalyzer;
-import com.handson.sentiment.twitter.AppNewsStream;
+import com.handson.sentiment.news.AppNewsStream;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class AppController {
     @Autowired
     SentimentAnalyzer sentimentAnalyzer;
     @Autowired
-    AppNewsStream twitterStream;
+    AppNewsStream NewsStream;
 
     @Autowired
     AppKafkaSender kafkaSender;
@@ -40,9 +40,9 @@ public class AppController {
     public  @ResponseBody  Flux<String> getKafka()  {
         return kafkaReceiver.receive().map(x-> x.value() + "<br>");
     }
-    @RequestMapping(path = "/startTwitter", method = RequestMethod.GET)
+    @RequestMapping(path = "/startNews", method = RequestMethod.GET)
     public  @ResponseBody Flux<String> start(String text) throws InterruptedException {
-        return twitterStream.filter(text)
+        return NewsStream.filter(text)
                 .window(Duration.ofSeconds(3))
                 .flatMap(window->toArrayList(window))
                 .map(messages->{
@@ -51,9 +51,9 @@ public class AppController {
                 });
     }
 
-    @RequestMapping(path = "/stopTwitter", method = RequestMethod.GET)
+    @RequestMapping(path = "/stopNews", method = RequestMethod.GET)
     public  @ResponseBody Mono<String> stop()  {
-        twitterStream.shutdown();
+        NewsStream.shutdown();
         return Mono.just("shutdown");
     }
 
@@ -65,7 +65,7 @@ public class AppController {
     public  @ResponseBody Flux<String> grouped(@RequestParam(defaultValue = "obama") String text,
                                                @RequestParam(defaultValue = "3") Integer timeWindowSec) throws InterruptedException {
         var flux = kafkaReceiver.receive().map(message -> message.value());
-        twitterStream.filter(text).map((x)-> kafkaSender.send(x, APP_TOPIC)).subscribe();
+        NewsStream.filter(text).map((x)-> kafkaSender.send(x, APP_TOPIC)).subscribe();
 
         return flux.map(x-> new TimeAndMessage(DateTime.now(), x))
                 .window(Duration.ofSeconds(timeWindowSec))
@@ -80,7 +80,7 @@ public class AppController {
     public  @ResponseBody Flux<String> sentiment(@RequestParam(defaultValue = "obama") String text,
                                                  @RequestParam(defaultValue = "3") Integer timeWindowSec) throws InterruptedException {
         var flux = kafkaReceiver.receive().map(message -> message.value());
-        twitterStream.filter(text).map((x)-> kafkaSender.send(x, APP_TOPIC)).subscribe();
+        NewsStream.filter(text).map((x)-> kafkaSender.send(x, APP_TOPIC)).subscribe();
 
         return flux.map(x-> new TimeAndMessage(DateTime.now(), x))
                 .window(Duration.ofSeconds(timeWindowSec))

@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Configuration
 public class KafkaTopicConfig {
-    public static final String APP_TOPIC = "twitter";
+    public static final String APP_TOPIC = "news";
 
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
