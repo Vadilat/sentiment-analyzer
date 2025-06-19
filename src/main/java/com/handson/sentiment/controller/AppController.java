@@ -1,6 +1,7 @@
 package com.handson.sentiment.controller;
 
 import com.handson.sentiment.kafka.AppKafkaSender;
+import com.handson.sentiment.kafka.KafkaRequest;
 import com.handson.sentiment.nlp.SentimentAnalyzer;
 import com.handson.sentiment.news.AppNewsStream;
 import org.joda.time.DateTime;
@@ -20,6 +21,7 @@ import static com.handson.sentiment.kafka.KafkaTopicConfig.APP_TOPIC;
 public class AppController {
     @Autowired
     SentimentAnalyzer sentimentAnalyzer;
+
     @Autowired
     AppNewsStream NewsStream;
 
@@ -29,10 +31,9 @@ public class AppController {
     @Autowired
     KafkaReceiver<String,String> kafkaReceiver;
 
-
-    @RequestMapping(path = "/sendKafka", method = RequestMethod.GET)
-    public  @ResponseBody Mono<String> sendText(String text)  {
-        kafkaSender.send(text, APP_TOPIC);
+    @PostMapping("/sendKafka")
+    public @ResponseBody Mono<String> sendText(@RequestBody KafkaRequest request) {
+        kafkaSender.send(request.getText(), APP_TOPIC);
         return Mono.just("OK");
     }
 
