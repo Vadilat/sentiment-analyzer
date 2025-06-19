@@ -34,16 +34,16 @@ src/
 ├── main/
 │   ├── java/
 │   │   └── com/handson/sentiment/
-│   │       ├── controller/
+│   │       ├── controller/        → Exposes all REST endpoints
 │   │       │   └── AppController.java
-│   │       ├── kafka/            
+│   │       ├── kafka/             → Kafka producer logic, topic config, and request wrapper
 │   │       │   ├── AppKafkaSender.java
 │   │       │   ├── KafkaConfig.java
 │   │       │   ├── KafkaRequest.java
 │   │       │   └── KafkaTopicConfig.java
-│   │       ├── news/              
+│   │       ├── news/              → NewsAPI-based streaming service
 │   │       │   └── AppNewsStream.java
-│   │       └── nlp/
+│   │       └── nlp/               → Stanford CoreNLP analyzer
 │   │           └── SentimentAnalyzer.java
 │   └── resources/
 │       └── application.properties
