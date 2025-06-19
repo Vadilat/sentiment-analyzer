@@ -1,6 +1,6 @@
 # News Sentiment Analyzer
 
-A Spring Boot microservice that streams live news articles, queues them via Kafka, and performs real-time sentiment analysis using Stanford CoreNLP in a non-blocking WebFlux pipeline.
+A Spring Boot app that streams live news, sends articles through Kafka, and performs real-time sentiment analysis using Stanford CoreNLP in a reactive WebFlux pipeline.
 
 ---
 
@@ -8,11 +8,11 @@ A Spring Boot microservice that streams live news articles, queues them via Kafk
 
 - **Java 17**
 - **Spring Boot**
-- **Spring WebFlux** – Non-blocking reactive web layer
-- **Reactor Kafka** – Asynchronous Kafka consumer/producer
-- **Stanford CoreNLP** – NLP sentiment analysis
-- **NewsAPI** – Fetches live news data
-- **Project Reactor** – Flux/Mono reactive programming
+- **Spring WebFlux**
+- **Reactor Kafka**
+- **Stanford CoreNLP**
+- **NewsAPI**
+- **Project Reactor**
 - **Maven**
 
 ---
@@ -46,7 +46,7 @@ src/
 | Method | Endpoint       | Description                                 |
 |--------|----------------|---------------------------------------------|
 | GET    | `/hello`       | Analyze custom text sentiment               |
-| GET    | `/sendKafka`   | Manually send a message to Kafka            |
+| POST   | `/sendKafka`   | Manually send a message to Kafka            |
 | GET    | `/getKafka`    | View incoming Kafka messages                |
 | GET    | `/startNews`   | Start streaming news by keyword             |
 | GET    | `/stopNews`    | Stop the news stream                        |
