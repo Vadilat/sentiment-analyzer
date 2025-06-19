@@ -31,12 +31,25 @@ A Spring Boot app that streams live news, sends articles through Kafka, and perf
 ## Project Structure
 ```text
 src/
-├── controller/ → Exposes all REST endpoints
-├── kafka/ → Kafka sender, receiver, topic config
-├── news/ → Connects to NewsAPI and emits article lines
-├── nlp/ → Stanford CoreNLP sentiment analyzer
-└── resources/
-└── application.properties
+├── main/
+│   ├── java/
+│   │   └── com/handson/sentiment/
+│   │       ├── controller/
+│   │       │   └── AppController.java
+│   │       ├── kafka/            
+│   │       │   ├── AppKafkaSender.java
+│   │       │   ├── KafkaConfig.java
+│   │       │   ├── KafkaRequest.java
+│   │       │   └── KafkaTopicConfig.java
+│   │       ├── news/              
+│   │       │   └── AppNewsStream.java
+│   │       └── nlp/
+│   │           └── SentimentAnalyzer.java
+│   └── resources/
+│       └── application.properties
+├── docker-compose.yml
+└── pom.xml
+
 ```
 
 ---
